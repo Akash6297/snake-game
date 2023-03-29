@@ -30,7 +30,7 @@ window.onload = function() {
     placeFood();
     document.addEventListener("keyup", changeDirection);
     // update();
-    setInterval(update, 1000/2); //500 milliseconds
+    setInterval(update, 1000/4); //250 milliseconds
 }
 
 function update() {
