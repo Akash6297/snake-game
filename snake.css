@@ -1,4 +1,88 @@
-body {
-    font-family: 'Courier New', Courier, monospace;
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    background-color: #343a40;
+    font-family: "Open Sans", sans-serif;
+    color: #fff;
+  }
+  
+  h1 {
     text-align: center;
-}
+  }
+  
+  #start-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  
+  #canvas-container {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  #canvas {
+    background-color: black;
+    border: 2px solid #fff;
+    margin: auto;
+    width: 800px;
+    height: 600px;
+    padding: 0;
+  }
+  
+  
+  #score {
+    margin-top: 10px;
+    font-size: 24px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: #1c1919;
+    border: none;
+    border-radius: 5px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #218838;
+  }
+  
+  button:focus {
+    outline: none;
+  }
+  
+  /* color modifications */
+  #canvas {
+    border-color: #28a745;
+  }
+  
+  #score {
+    color: #28a745;
+  }
+  
+  button {
+    background-color: #343a40;
+    color: #28a745;
+    border: 2px solid #28a745;
+  }
+  
+  button:hover {
+    background-color: #28a745;
+    color: #fff;
+  }
+  
+  button:focus {
+    outline: none;
+    background-color: #343a40;
+    color: #28a745;
+    border-color: #28a745;
+  }

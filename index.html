@@ -1,15 +1,26 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport", content="width=device-width, initial-scale=1.0">
-        <title>Snake</title>
-        <link rel="stylesheet" href="snake.css">
-        <script src="snake.js"></script>
-    </head>
-
-    <body>
-        <h1>Snake</h1>
-        <canvas id="board"></canvas>
-    </body>
+  <head>
+    <title>Snake Game</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:400,700"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="snake.css" />
+  </head>
+  <body>
+    <div id="start-screen">
+      <h1>Snake Game</h1>
+      <button id="start-button">Start Game</button>
+    </div>
+    <div id="canvas-container">
+        <canvas id="canvas" width="400" height="400"></canvas>
+      <div id="score">Score: 0</div>
+      <div id="game-over" style="display: none">
+        <h2>Game Over</h2>
+        <button id="replay-button">Replay</button>
+      </div>
+    </div>
+    <script src="snake.js"></script>
+  </body>
 </html>
