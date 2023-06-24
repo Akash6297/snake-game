@@ -1,130 +1,146 @@
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
+document.addEventListener('DOMContentLoaded', () => {
+    const canvas = document.getElementById('game-canvas');
+    const context = canvas.getContext('2d');
+    const scoreElement = document.getElementById('score');
+    const endScreen = document.getElementById('end-screen');
+    const endScoreElement = document.getElementById('end-score');
+    const restartButton = document.getElementById('restart-btn');
 
-const startScreen = document.getElementById("start-screen");
-const startButton = document.getElementById("start-button");
-const canvasContainer = document.getElementById("canvas-container");
+    const gridSize = 20;
+    const gridWidth = canvas.width / gridSize;
+    const gridHeight = canvas.height / gridSize;
 
-const ROWS = 20;
-const COLS = 20;
-const CELL_SIZE = 15;
+    let snake = [{x: 10, y: 10}];
+    let apple = {x: 5, y: 5};
+    let dx = 0;
+    let dy = 0;
+    let score = 0;
+    let isGameRunning = false;
 
-let snake = [{ x: 10, y: 10 }];
-let direction = "right";
-let food = null;
-let score = 0;
-let intervalId = null;
+    function drawSnake() {
+        context.fillStyle = '#00FF00';
+        snake.forEach(segment => {
+            context.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize, gridSize);
+        });
+    }
 
-function drawCell(x, y, color) {
-  ctx.fillStyle = color;
-  ctx.fillRect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-}
+    function drawApple() {
+        context.fillStyle = '#FF0000';
+        context.fillRect(apple.x * gridSize, apple.y * gridSize, gridSize, gridSize);
+    }
 
-function drawSnake() {
-  snake.forEach((segment) => drawCell(segment.x, segment.y, "green"));
-}
+    function moveSnake() {
+        const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+        snake.unshift(head);
 
-function moveSnake() {
-  const head = { x: snake[0].x, y: snake[0].y };
-  switch (direction) {
-    case "up":
-      head.y--;
-      break;
-    case "down":
-      head.y++;
-      break;
-    case "left":
-      head.x--;
-      break;
-    case "right":
-      head.x++;
-      break;
-  }
-  snake.unshift(head);
-  if (head.x === food.x && head.y === food.y) {
-    score++;
-    generateFood();
-  } else {
-    snake.pop();
-  }
-}
+        if (head.x === apple.x && head.y === apple.y) {
+            score++;
+            scoreElement.textContent = 'Score: ' + score;
+            generateApple();
+        } else {
+            snake.pop();
+        }
+    }
 
-function generateFood() {
-  let foodX = Math.floor(Math.random() * COLS);
-  let foodY = Math.floor(Math.random() * ROWS);
-  food = { x: foodX, y: foodY };
-}
+    function generateApple() {
+        apple = {
+            x: Math.floor(Math.random() * gridWidth),
+            y: Math.floor(Math.random() * gridHeight)
+        };
 
-function drawFood() {
-  drawCell(food.x, food.y, "red");
-}
+        if (isAppleOnSnake()) {
+            generateApple();
+        }
+    }
 
-function handleKeydown(event) {
-  switch (event.key) {
-    case "ArrowUp":
-      if (direction !== "down") direction = "up";
-      break;
-    case "ArrowDown":
-      if (direction !== "up") direction = "down";
-      break;
-    case "ArrowLeft":
-      if (direction !== "right") direction = "left";
-      break;
-    case "ArrowRight":
-      if (direction !== "left") direction = "right";
-      break;
-  }
-}
+    function isAppleOnSnake() {
+        return snake.some(segment => {
+            return segment.x === apple.x && segment.y === apple.y;
+        });
+    }
 
-function drawScore() {
-  const scoreElement = document.getElementById("score");
-  scoreElement.textContent = `Score: ${score}`;
-}
+    function checkCollision() {
+        const head = snake[0];
 
-function clearCanvas() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-}
+        if (
+            head.x < 0 ||
+            head.x >= gridWidth ||
+            head.y < 0 ||
+            head.y >= gridHeight ||
+            isSnakeColliding()
+        ) {
+            endGame();
+        }
+    }
 
-function gameLoop() {
-  clearCanvas();
-  drawSnake();
-  drawFood();
-  moveSnake();
-  drawScore();
-  if (isGameOver()) {
-    clearInterval(intervalId);
-    alert(`Game over! Final score: ${score}`);
-    startScreen.style.display = "block";
-    canvasContainer.style.display = "none";
-  }
-}
+    function isSnakeColliding() {
+        const head = snake[0];
+        return snake.slice(1).some(segment => {
+            return segment.x === head.x && segment.y === head.y;
+        });
+    }
 
-function isGameOver() {
-  const head = snake[0];
-  const rest = snake.slice(1);
-  return (
-    head.x < 0 ||
-    head.x >= COLS ||
-    head.y < 0 ||
-    head.y >= ROWS ||
-    rest.some((segment) => segment.x === head.x && segment.y === head.y)
-  );
-}
+    function update() {
+        if (!isGameRunning) return;
 
-function startGame() {
-  snake = [{ x: 10, y: 10 }];
-  direction = "right";
-  score = 0;
-  generateFood();
-  intervalId = setInterval(gameLoop, 100);
-}
+        context.clearRect(0, 0, canvas.width, canvas.height);
 
-startButton.addEventListener("click", () => {
-  startScreen.style.display = "none";
-  canvasContainer.style.display = "block";
-  startGame();
+        drawSnake();
+        drawApple();
+        moveSnake();
+        checkCollision();
+
+        setTimeout(update, 100);
+    }
+
+    function startGame() {
+        snake = [{x: 10, y: 10}];
+        dx = 0;
+        dy = 0;
+        score = 0;
+        scoreElement.textContent = 'Score: 0';
+        generateApple();
+        isGameRunning = true;
+        endScreen.style.display = 'none';
+        update();
+    }
+
+    function endGame() {
+        isGameRunning = false;
+        endScoreElement.textContent = 'Final Score: ' + score;
+        endScreen.style.display = 'flex';
+    }
+
+    function handleKeyDown(event) {
+        const LEFT_KEY = 37;
+        const RIGHT_KEY = 39;
+        const UP_KEY = 38;
+        const DOWN_KEY = 40;
+
+        const keyPressed = event.keyCode;
+
+        if (keyPressed === LEFT_KEY && dx !== 1) {
+            dx = -1;
+            dy = 0;
+        }
+
+        if (keyPressed === RIGHT_KEY && dx !== -1) {
+            dx = 1;
+            dy = 0;
+        }
+
+        if (keyPressed === UP_KEY && dy !== 1) {
+            dx = 0;
+            dy = -1;
+        }
+
+        if (keyPressed === DOWN_KEY && dy !== -1) {
+            dx = 0;
+            dy = 1;
+        }
+    }
+
+    restartButton.addEventListener('click', startGame);
+    document.addEventListener('keydown', handleKeyDown);
+    document.getElementById('start-btn').addEventListener('click', startGame);
 });
-
-document.addEventListener("keydown", handleKeydown);
-
-gameLoop();
