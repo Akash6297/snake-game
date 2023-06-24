@@ -1,3 +1,9 @@
+canvas {
+    border: 1px solid #000;
+    display: block;
+    margin: 0 auto;
+    background-color: #f1f1f1; /* Set the background color of the canvas */
+}
 body {
     background: linear-gradient(to right, #2d5b84, #5ba8c6);
     overflow: hidden;
