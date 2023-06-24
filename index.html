@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title>Snake Game</title>
     <link
       href="https://fonts.googleapis.com/css?family=Open+Sans:400,700"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="snake.css" />
+    <link rel="stylesheet" href="styles.css" />
   </head>
-  <body>
-    <div id="start-screen">
-      <h1>Snake Game</h1>
-      <button id="start-button">Start Game</button>
-    </div>
-    <div id="canvas-container">
-        <canvas id="canvas" width="400" height="400"></canvas>
-      <div id="score">Score: 0</div>
-      <div id="game-over" style="display: none">
+</head>
+<body>
+    <div id="snake-background"></div>
+
+    <button id="start-btn">Start</button>
+    <canvas id="game-canvas" width="400" height="400"></canvas>
+    <div id="score">Score: 0</div>
+    <div id="end-screen">
         <h2>Game Over</h2>
-        <button id="replay-button">Replay</button>
-      </div>
+        <div id="end-score"></div>
+        <button id="restart-btn">Restart</button>
     </div>
-    <script src="snake.js"></script>
-  </body>
+
+    <script src="script.js"></script>
+</body>
 </html>

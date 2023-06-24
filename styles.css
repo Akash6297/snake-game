@@ -1,0 +1,81 @@
+canvas {
+    border: 1px solid #000;
+    display: block;
+    margin: 0 auto;
+    background-color: #f1f1f1; /* Set the background color of the canvas */
+}
+body {
+    background: linear-gradient(to right, #2d5b84, #5ba8c6);
+    overflow: hidden;
+}
+
+#snake-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    animation: snakeBackground 20s linear infinite;
+}
+
+@keyframes snakeBackground {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 100% 0;
+    }
+}
+
+        
+#score {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 18px;
+    color: #fff;
+    background-color: #333;
+    padding: 8px 16px;
+    border-radius: 5px;
+}
+#end-screen {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+}
+
+#end-screen h2 {
+    margin-bottom: 20px;
+}
+
+#end-screen p {
+    margin-bottom: 10px;
+}
+
+
+        #restart-btn {
+            background: #4CAF50;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        #start-btn {
+            position: absolute;
+    left: 50%;
+    bottom: 20px;
+    transform: translateX(-50%);
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
